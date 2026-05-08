@@ -1,5 +1,6 @@
 import { deleteMeal } from '@/storage/meals';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import * as Haptics from 'expo-haptics';
 
 type MealItemProps = {
   id: string;
@@ -20,13 +21,22 @@ export default function MealItem({
   fat,
   onDelete,
 }: MealItemProps) {
-  const handleLongPress = () => { 
+  const handleLongPress = () => {
     Alert.alert('Delete Meal', `Are you sure you want to delete "${name}"?`, [
       { text: 'Cancel', style: 'cancel' },
-      { text: 'Delete', style: 'destructive', onPress: async () => {
-        await deleteMeal(id);
-        onDelete();
-      } },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: async () => {
+          await deleteMeal(id);
+          try {
+            await Haptics.notificationAsync(
+              Haptics.NotificationFeedbackType.Success,
+            );
+          } catch {}
+          onDelete();
+        },
+      },
     ]);
   };
 

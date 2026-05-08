@@ -10,6 +10,7 @@ import {
 import { colors, globalStyles } from '@/styles/global';
 import { router } from 'expo-router';
 import { addMeal } from '@/storage/meals';
+import * as Haptics from 'expo-haptics';
 
 export default function AddMealScreen() {
   const [name, setName] = useState('');
@@ -38,6 +39,10 @@ export default function AddMealScreen() {
     setCarbs('');
     setFat('');
 
+    try {
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } catch {}
+
     Alert.alert('Meal added successfully');
 
     router.push('/');
@@ -49,7 +54,7 @@ export default function AddMealScreen() {
 
       <TextInput
         style={styles.input}
-        placeholder='Meal name'
+        placeholder="Meal name"
         placeholderTextColor={colors.textSecondary}
         value={name}
         onChangeText={setName}
@@ -57,9 +62,9 @@ export default function AddMealScreen() {
 
       <TextInput
         style={styles.input}
-        placeholder='Calories'
+        placeholder="Calories"
         placeholderTextColor={colors.textSecondary}
-        keyboardType='numeric'
+        keyboardType="numeric"
         value={calories}
         onChangeText={setCalories}
       />
@@ -67,25 +72,25 @@ export default function AddMealScreen() {
       <View style={styles.row}>
         <TextInput
           style={[styles.input, styles.rowInput]}
-          placeholder='Protein (g)'
+          placeholder="Protein (g)"
           placeholderTextColor={colors.textSecondary}
-          keyboardType='numeric'
+          keyboardType="numeric"
           value={protein}
           onChangeText={setProtein}
         />
         <TextInput
           style={[styles.input, styles.rowInput]}
-          placeholder='Carbs (g)'
+          placeholder="Carbs (g)"
           placeholderTextColor={colors.textSecondary}
-          keyboardType='numeric'
+          keyboardType="numeric"
           value={carbs}
           onChangeText={setCarbs}
         />
         <TextInput
           style={[styles.input, styles.rowInput]}
-          placeholder='Fat (g)'
+          placeholder="Fat (g)"
           placeholderTextColor={colors.textSecondary}
-          keyboardType='numeric'
+          keyboardType="numeric"
           value={fat}
           onChangeText={setFat}
         />
